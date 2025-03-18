@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Photos on My New Hugo Site</title>
+    <title>Photos on Place holder</title>
     <link>https://jules-rouillard.github.io/photos/</link>
-    <description>Recent content in Photos on My New Hugo Site</description>
+    <description>Recent content in Photos on Place holder</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 21 Jan 2024 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 16 Mar 2025 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://jules-rouillard.github.io/photos/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>----, France</title>
-      <link>https://jules-rouillard.github.io/photos/test/</link>
-      <pubDate>Sun, 21 Jan 2024 00:00:00 +0000</pubDate>
-      <guid>https://jules-rouillard.github.io/photos/test/</guid>
-      <description>The</description>
+      <title>Carrauntoohil, Ireland</title>
+      <link>https://jules-rouillard.github.io/photos/test-2/</link>
+      <pubDate>Sun, 16 Mar 2025 00:00:00 +0000</pubDate>
+      <guid>https://jules-rouillard.github.io/photos/test-2/</guid>
+      <description>This is a picture of &amp;ldquo;Carrauntoohil&amp;rdquo; the highest mountain in Ireland (1039m), taken bellow &amp;ldquo;Caher West Top&amp;rdquo; side. Hike name : The Coomloughra Horseshoe Trail to Carrantuohill.</description>
     </item>
     <item>
-      <title>--, France</title>
-      <link>https://jules-rouillard.github.io/photos/test-2/</link>
-      <pubDate>Sun, 21 Jan 2024 00:00:00 +0000</pubDate>
-      <guid>https://jules-rouillard.github.io/photos/test-2/</guid>
-      <description>The</description>
+      <title>Refuge Wallon Marcadau, Pyrénées, France</title>
+      <link>https://jules-rouillard.github.io/photos/test/</link>
+      <pubDate>Sat, 03 Aug 2024 00:00:00 +0000</pubDate>
+      <guid>https://jules-rouillard.github.io/photos/test/</guid>
+      <description>Picture taken from the camping zone bellow the &amp;ldquo;Refuge Wallon Marcadau&amp;rdquo; around 6pm when the sun was setting on the valley. In the center we have &amp;ldquo;Pic Ruben Pantet&amp;rdquo; (2867m) on the left and &amp;ldquo;Pic Arraillous&amp;rdquo; (2704m) on the right.&#xA;Taken my 6-day hike of the &amp;ldquo;Tour du grand Vignemale&amp;rdquo; in 2024.&#xA;Zooming in the top half part of the picture focusing more on both Pic great a better picture.</description>
     </item>
   </channel>
 </rss>
