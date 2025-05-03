@@ -1,26 +1,19 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Posts on Place holder</title>
-    <link>https://jules-rouillard.github.io/posts/</link>
-    <description>Recent content in Posts on Place holder</description>
+    <title>Posts on Jules Rouillard</title>
+    <link>http://localhost:1313/posts/</link>
+    <description>Recent content in Posts on Jules Rouillard</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 14 Mar 2025 15:24:36 +0000</lastBuildDate>
-    <atom:link href="https://jules-rouillard.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>Draft</title>
-      <link>https://jules-rouillard.github.io/posts/draft/</link>
-      <pubDate>Fri, 14 Mar 2025 15:24:36 +0000</pubDate>
-      <guid>https://jules-rouillard.github.io/posts/draft/</guid>
-      <description>&lt;p&gt;This article offers a sample of basic Markdown syntax that can be used in Hugo content files, also it shows whether basic HTML elements are decorated with CSS in a Hugo theme.&lt;/p&gt;</description>
-    </item>
+    <lastBuildDate>Thu, 03 Apr 2025 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Gloves Dryer</title>
-      <link>https://jules-rouillard.github.io/posts/gloves_dryer/</link>
-      <pubDate>Fri, 14 Mar 2025 15:24:36 +0000</pubDate>
-      <guid>https://jules-rouillard.github.io/posts/gloves_dryer/</guid>
-      <description></description>
+      <link>http://localhost:1313/posts/gloves_dryer/gloves_dryer/</link>
+      <pubDate>Thu, 03 Apr 2025 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/gloves_dryer/gloves_dryer/</guid>
+      <description>Most days, I cycle to work, but I live in Ireland, and rain has become an inseparable part of the commute.&#xA;While it is not a big issue as I carry spare clothes and shoes, my gloves and shoes do get wet and don’t dry over the workday. To reduce the time it takes to dry, one can use a few tricks. In this case, I went with a bit of ventilation.</description>
     </item>
   </channel>
 </rss>

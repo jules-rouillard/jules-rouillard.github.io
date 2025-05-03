@@ -4,68 +4,68 @@
     
         
         <url>
-            <loc>https://jules-rouillard.github.io/photos/test-2/</loc>
+            <loc>http://localhost:1313/posts/gloves_dryer/gloves_dryer/</loc>
+            <lastmod>2025-04-03T00:00:00+00:00</lastmod>
+        </url>
+        
+    
+        
+        <url>
+            <loc>http://localhost:1313/</loc>
+            <lastmod>2025-04-03T00:00:00+00:00</lastmod>
+        </url>
+        
+    
+        
+        <url>
+            <loc>http://localhost:1313/posts/</loc>
+            <lastmod>2025-04-03T00:00:00+00:00</lastmod>
+        </url>
+        
+    
+        
+        <url>
+            <loc>http://localhost:1313/photos/carrauntoohil-ireland/</loc>
             <lastmod>2025-03-16T00:00:00+00:00</lastmod>
         </url>
         
     
         
         <url>
-            <loc>https://jules-rouillard.github.io/photos/</loc>
+            <loc>http://localhost:1313/photos/</loc>
             <lastmod>2025-03-16T00:00:00+00:00</lastmod>
         </url>
         
     
         
         <url>
-            <loc>https://jules-rouillard.github.io/</loc>
-            <lastmod>2025-03-16T00:00:00+00:00</lastmod>
+            <loc>http://localhost:1313/photos/pico-de-marcadau-pyrenees/</loc>
+            <lastmod>2024-08-04T00:00:00+00:00</lastmod>
         </url>
         
     
         
         <url>
-            <loc>https://jules-rouillard.github.io/posts/draft/</loc>
-            <lastmod>2025-03-14T15:24:36+00:00</lastmod>
-        </url>
-        
-    
-        
-        <url>
-            <loc>https://jules-rouillard.github.io/posts/gloves_dryer/</loc>
-            <lastmod>2025-03-14T15:24:36+00:00</lastmod>
-        </url>
-        
-    
-        
-        <url>
-            <loc>https://jules-rouillard.github.io/posts/</loc>
-            <lastmod>2025-03-14T15:24:36+00:00</lastmod>
-        </url>
-        
-    
-        
-        <url>
-            <loc>https://jules-rouillard.github.io/photos/test/</loc>
+            <loc>http://localhost:1313/photos/refuge-wallon-marcadau-pyrenees/</loc>
             <lastmod>2024-08-03T00:00:00+00:00</lastmod>
         </url>
         
     
         
         <url>
-            <loc>https://jules-rouillard.github.io/about/</loc>
+            <loc>http://localhost:1313/about/</loc>
         </url>
         
     
         
         <url>
-            <loc>https://jules-rouillard.github.io/categories/</loc>
+            <loc>http://localhost:1313/categories/</loc>
         </url>
         
     
         
         <url>
-            <loc>https://jules-rouillard.github.io/tags/</loc>
+            <loc>http://localhost:1313/tags/</loc>
         </url>
         
     

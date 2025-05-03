@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Jules Rouillard/posts/gloves_dryer/gloves_dryer/</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="all,follow">
+    <meta name="googlebot" content="index,follow,snippet,archive">
+    <link rel="stylesheet" href="http://localhost:1313/css/terminal-0.7.4.min.css">
+    
+    
+    
+    
+     
+       <meta property="og:title" content="Gloves Dryer" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://localhost:1313/posts/gloves_dryer/gloves_dryer/" /><meta property="article:published_time" content="2025-04-03T00:00:00+00:00" />
+
+
+
+<meta name="twitter:title" content="Gloves Dryer"/>
+<meta name="twitter:description" content="Most days, I cycle to work, but I live in Ireland, and rain has become an inseparable part of the commute.
+While it is not a big issue as I carry spare clothes and shoes, my gloves and shoes do get wet and don’t dry over the workday. To reduce the time it takes to dry, one can use a few tricks. In this case, I went with a bit of ventilation."/>
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.css" integrity="sha384-zh0CIslj+VczCZtlzBcjt5ppRcsAmDnRem7ESsYwWwg3m/OaJ2l4x7YBZl9Kxxib" crossorigin="anonymous">
+
+    
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.js" integrity="sha384-Rma6DA2IPUwhNxmrB/7S3Tno0YY7sFu9WSYMCuulLhIqYSGZ2gKCJWIqhBWqMQfh" crossorigin="anonymous"></script>
+
+    
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/contrib/auto-render.min.js" integrity="sha384-hCXGrW6PitJEwbkoStFjeJxv+fSOOQKOPbJxSfM6G5sWZjAyWhXiTIIAmQqnlLlh" crossorigin="anonymous"
+        onload="renderMathInElement(document.body);"></script>
+  </head>
+  ...
+</html>
+
+</head>
+<body class="terminal">
+    <div class="container">
+        <div class="terminal-nav">
+          <header class="terminal-logo">
+            <div class="logo terminal-prompt">
+              
+              
+              <a href="http://localhost:1313/" class="no-style site-name">Jules Rouillard</a>:~# 
+              <a href='http://localhost:1313/posts'>posts</a>/<a href='http://localhost:1313/posts/gloves_dryer'>gloves_dryer</a>/<a href='http://localhost:1313/posts/gloves_dryer/gloves_dryer'>gloves_dryer</a>/</div></header>
+          <nav class="terminal-menu">
+            <ul vocab="https://schema.org/" typeof="BreadcrumbList">
+                
+                <li><a href="http://localhost:1313/about/" typeof="ListItem">about/</a></li>
+                
+                <li><a href="http://localhost:1313/posts/" typeof="ListItem">posts/</a></li>
+                
+                <li><a href="http://localhost:1313/photos/" typeof="ListItem">photos/</a></li>
+                
+            </ul>
+          </nav>
+        </div>
+    </div>
+
+    <div class="container animated zoomIn fast" >
+        
+<h1>Gloves Dryer</h1>
+
+Apr. 3, 2025
+
+
+<nav id="TableOfContents">
+  <ol>
+    <li><a href="#defining-expected-behaviour">Defining expected behaviour</a></li>
+    <li><a href="#firmware-for-communication-with-the-humidity-sensor">Firmware for communication with the humidity sensor</a>
+      <ol>
+        <li><a href="#mcu-code">MCU code</a></li>
+      </ol>
+    </li>
+    <li><a href="#hardware">Hardware</a>
+      <ol>
+        <li><a href="#fan-control">Fan control</a></li>
+        <li><a href="#first-prototype-testing">First prototype testing</a></li>
+        <li><a href="#pcb-layout">PCB layout</a></li>
+      </ol>
+    </li>
+    <li><a href="#compenent-list">Compenent list</a></li>
+  </ol>
+</nav>
+<p>Most days, I cycle to work, but I live in Ireland, and rain has become an inseparable part of the commute.</p>
+<p>While it is not a big issue as I carry spare clothes and shoes, my gloves and shoes do get wet and don’t dry over the workday.
+To reduce the time it takes to dry, one can use a few tricks. In this case, I went with a bit of ventilation. Having a small airflow can make a big difference especially since the air in the office is not saturated in water.</p>
+<p>The goal of the small project was to build a fan that would be controlled by a humidity sensor placed inside gloves/shoes.</p>
+<p>Project file : <a href="https://github.com/jules-rouillard/gloves_dryer">https://github.com/jules-rouillard/gloves_dryer</a></p>
+<h2 id="defining-expected-behaviour">Defining expected behaviour</h2>
+<p>The board will have 2 switches and one button. Which give us 4 possible states. The button is used to trigger a new read of the switches and change the state of the system.</p>
+<p>There are 3 states that I want:</p>
+<p><strong>Always On/Off</strong>
+Fans are always on or off. The states are toggled with a button press.</p>
+<p><strong>Sensor control</strong>
+The button press set the reference for humidity (the sensor should be outside the humid area). Then, the sensor should be placed in the humid area. The humidity rises until it passes the threshold, after which the fans are turned on until the humidity decreases below the threshold. The humidity value is checked periodically when the timer interrupt trigger.</p>
+<p><strong>Time control</strong>
+The button press starts a timer for the on state, lasting 3 hours. After the timer runs out, the system will go into an off state until the button is press again.
+If the button is press while the system is in on state the timer will get reset and the on state will last a further 3 hours.</p>
+<table>
+<thead>
+<tr>
+<th>SW2</th>
+<th>SW1</th>
+<th>Code</th>
+<th>State</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td><strong>Always On/Off</strong></td>
+</tr>
+<tr>
+<td>0</td>
+<td>1</td>
+<td>2</td>
+<td><strong>Sensor control</strong></td>
+</tr>
+<tr>
+<td>1</td>
+<td>0</td>
+<td>3</td>
+<td></td>
+</tr>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>4</td>
+<td><strong>Time control</strong></td>
+</tr>
+</tbody>
+</table>
+<h2 id="firmware-for-communication-with-the-humidity-sensor">Firmware for communication with the humidity sensor</h2>
+<p>When using a sensor or any type of electronic component, it is important to understand how they behave and how to communicate with them.</p>
+<p><strong>TLDR: READ THE DATA SHEET</strong><sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup></p>
+<p>For standard components, you will be able to find someone online who took the time to write the firmware. This makes life easier.</p>
+<p>In this case, I first found an example for PIC micro and reused it without looking much into it.
+Nevertheless, it is a good exercise to try to rewrite it using the datasheet. So, here we go!</p>
+<p>The data sheet clearly explained the communication protocol. Since it&rsquo;s a single-wire two-way connection, understanding the timing for when the MCU/sensor is talking is crucial. To summarize:</p>
+<ol>
+<li>The MCU send a start signal</li>
+<li>The MCU wait for confirmation from the sensor that the message has been received</li>
+<li>The sensor will start sending the data <strong>(higher data bit)</strong>, which will be a 40-bit message with 16 bits for the humidity, 16 bits for the temperature and an 8-bit checksum.</li>
+</ol>
+<p>The differentiation between 0b0 and 0b1 in the message depends on the length of time in which the voltage is high.</p>
+<p>With that, I came up with my time diagram.
+(I did not like Figure 2, &ldquo;Overall Communication Process&rdquo; in the datasheet, as it lacks time information.)</p>
+<figure><img src="/posts/gloves_dryer/time_diagram_dhr11.png" width="400"/><figcaption>
+            <h4>Figure 1: Communication time diagram</h4>
+        </figcaption>
+</figure>
+
+<h3 id="mcu-code">MCU code</h3>
+<p>I will be using the PIC16F18126 an 8-bit microcontroller from Microchip for this project.</p>
+<p>Microchip IDE, MPLAB, as a plugin call MPLAB Code Configurator, MCC for short. It is a graphical programming environment that will generate most of the configuration code for the microcontroller. We don&rsquo;t need to spend hours in the data sheet and manually set all the necessary registers.</p>
+<p>In MCC, there are a few things we need to initialize. The pins we will use, the tmr2 and the delay module. As well as putting the button interruption EXT_INT at a higher priority than the tmr2 interrupt in the Interruption Manager.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center"><figure><img src="/posts/gloves_dryer/pin_def.png" width="100"/>
+</figure>
+</th>
+<th style="text-align:center"><figure><img src="/posts/gloves_dryer/Project%20resource.png" width="400"/>
+</figure>
+</th>
+</tr>
+</thead>
+</table>
+<p>We will use the HFINTOSC clock, which runs at 32MHz, as the main clock for the MCU, but tmr 2 will use LFINTOSC clock, which runs at 31kHz.
+For tmr2 we need to set up the clock source, prescaler, postsclaer and callbackrate to achieve an interruption callback every 10min (600s). I used the maximum value for the pre/post scaler (128/16).</p>
+<p>$$IntTime = \frac{Prescaler * Postscaler * CallbackRate}{f_{LFINTOSC}} $$</p>
+<p>$$CallbackRate = \frac{IntTime * f_{LFINTOSC}}{Prescaler * Postscaler} = \frac{ 600 * 31.10^{-6}}{128*16} $$</p>
+<p>Now, we can move to writing our custom code. First, let&rsquo;s define some shortcuts and the variable we will use:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">#define SW1 RC4
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#define SW2 RC3
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#define F0 RC0
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#define F1 RC1
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">char</span> state, count_3h;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">char</span> Check, T_byte1, T_byte2, RH_byte1, RH_byte2, Ch;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">unsigned</span> Temp, RH, RH_ref, Sum;</span></span></code></pre></div>
+<p>For the sensor communication, we will use the following to send the start signal:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">send_start_signal</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">IO_RC2_SetDigitalOutput</span>();
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">IO_RC2_SetLow</span>();
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">DELAY_milliseconds</span>(<span style="color:#ae81ff">18</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">IO_RC2_SetHigh</span>();
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">DELAY_microseconds</span>(<span style="color:#ae81ff">10</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">IO_RC2_SetDigitalInput</span>();
+</span></span><span style="display:flex;"><span>}</span></span></code></pre></div>
+<p>To verify that the start command was detected:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">is_sensor_start_detected</span>() {
+</span></span><span style="display:flex;"><span>    Check <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">DELAY_microseconds</span>(<span style="color:#ae81ff">40</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">IO_RC2_GetValue</span>() <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">DELAY_microseconds</span>(<span style="color:#ae81ff">30</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">IO_RC2_GetValue</span>() <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>) {
+</span></span><span style="display:flex;"><span>            Check <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">DELAY_microseconds</span>(<span style="color:#ae81ff">40</span>);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}</span></span></code></pre></div>
+<p>And to read the data sent by the sensor 8bit by 8bit. (If needed reminder on bit manipulation in c<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup>).</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">char</span> <span style="color:#a6e22e">ReadData</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">char</span> i, j;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">8</span>; j<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span> (<span style="color:#f92672">!</span><span style="color:#a6e22e">IO_RC2_GetValue</span>()); <span style="color:#75715e">//Wait until input goes high
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#a6e22e">DELAY_microseconds</span>(<span style="color:#ae81ff">30</span>);
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//If input is low after 30us then the bit is a 0
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">IO_RC2_GetValue</span>() <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>            i <span style="color:#f92672">&amp;=</span> <span style="color:#f92672">~</span>(<span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;&lt;</span> (<span style="color:#ae81ff">7</span> <span style="color:#f92672">-</span> j)); <span style="color:#75715e">//Clear bit (7-b)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>            i <span style="color:#f92672">|=</span> (<span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;&lt;</span> (<span style="color:#ae81ff">7</span> <span style="color:#f92672">-</span> j)); <span style="color:#75715e">//Set bit (7-b)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            <span style="color:#66d9ef">while</span> (<span style="color:#a6e22e">IO_RC2_GetValue</span>());
+</span></span><span style="display:flex;"><span>        } <span style="color:#75715e">//Wait until PORTD.F0 goes LOW necessary since if a 1 still high after 30us
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> i;
+</span></span><span style="display:flex;"><span>}</span></span></code></pre></div>
+<p>Let&rsquo;s defined the timer interruption. We will also use this timer for state 4. 18 interruptions will equal 3 hours.
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">myTimer2ISR</span>(<span style="color:#66d9ef">void</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (state <span style="color:#f92672">==</span> <span style="color:#ae81ff">2</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//Read sensor
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#a6e22e">sensor_read</span>();
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//Compare to reference value
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span> (RH <span style="color:#f92672">&gt;</span> (RH_ref <span style="color:#f92672">+</span> <span style="color:#ae81ff">5</span>)) {
+</span></span><span style="display:flex;"><span>            F0 <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>            F1 <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>        } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>            F0 <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>            F1 <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">++</span>count_3h <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">18</span>) {
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">//After 3 hours timer2 and fans are turned off
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            count_3h <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>            F0 <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>            F1 <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">Timer2_Stop</span>();
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}</span></span></code></pre></div></p>
+<p>The button interruption is straightforward, it is just important to make sure we properly reset variables when changing states.
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">button_press</span>(<span style="color:#66d9ef">void</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">Timer2_Stop</span>();
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (SW2 <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> SW1 <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// Always on Code 1
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        state <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">IO_RC0_Toggle</span>();
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">IO_RC1_Toggle</span>();
+</span></span><span style="display:flex;"><span>    } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (SW2 <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> SW1 <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// Sensor control Code 2
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#75715e">//Set reference humidity value and start timer2
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        state <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">sensor_read</span>();
+</span></span><span style="display:flex;"><span>        RH_ref <span style="color:#f92672">=</span> RH;
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//Turn on fan as the first timer2ISR won&#39;t be done until 10min 
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        F0 <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>        F1 <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">Timer2_Start</span>();
+</span></span><span style="display:flex;"><span>    } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (SW2 <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&amp;&amp;</span> SW1 <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// Undefine Code 3
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        state <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span>;
+</span></span><span style="display:flex;"><span>        F0 <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>        F1 <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>    } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//Time control Code 4
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        state <span style="color:#f92672">=</span> <span style="color:#ae81ff">4</span>;
+</span></span><span style="display:flex;"><span>        count_3h <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>        F0 <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>        F1 <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">Timer2_Start</span>();
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}</span></span></code></pre></div></p>
+<p>Looking at the generated code by MCC we can find in timer header &ldquo;tmr2.h&rdquo; a function to link a custom call back to our timer interruption, we can also directly put custom code in tmr2.c for the default overflow callback.</p>
+<p>I prefer to link the call-back to a custom function in &ldquo;main.c&rdquo;. It is easier to differentiate custom code from generated MCC code that way.
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>(<span style="color:#66d9ef">void</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">SYSTEM_Initialize</span>();
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">Timer2_OverflowCallbackRegister</span>(myTimer2ISR);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">IO_RC5_SetInterruptHandler</span>(button_press);
+</span></span><span style="display:flex;"><span>    F0 <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>    F1 <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>    count_3h <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Enable the Global Interrupts 
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">INTERRUPT_GlobalInterruptEnable</span>();
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Enable the Peripheral Interrupts 
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">INTERRUPT_PeripheralInterruptEnable</span>();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">while</span> (<span style="color:#ae81ff">1</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//Nothing to do here
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    }
+</span></span><span style="display:flex;"><span>}</span></span></code></pre></div></p>
+<p>With this last step, the firmware for the PIC16F18126 is ready.</p>
+<h2 id="hardware">Hardware</h2>
+<h3 id="fan-control">Fan control</h3>
+<p>I found 12V DC at a PC shop, rated for 80mA. I only had BJT PN2222 with me to control the fan.
+Using its data sheet, I verified that it is properly rated for our application.
+We can see DC gain is specified for current from 0.1mA to 500mA, but only for a VCE of 1V and 10V.
+From Figure 3, we can get the DC gain at 80mA for VCE = 1V is around 220. In reality, VCE will be much lower than 1V. To simplify, I will assume a DC gain of 100 and later measure it.</p>
+<figure><img src="/posts/gloves_dryer/dc_current_gain.png"/>
+</figure>
+
+<p>The following schematic summarises the Fan control circuit (Figure 4). We need to dimension RB to limit the current below 80mA.</p>
+<p>$$I_{C} \approx \beta I_{B} $$</p>
+<p>$$I_{B}=\frac{V_p-V_{BE}}{R_B} $$
+$$R_{B}=\frac{V_p-V_{BE}}{I_B} $$
+$$R_{B}=\frac{5-0.7}{800.10^{-6}}=5375 \Omega $$</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center"><figure><img src="/posts/gloves_dryer/Diagram_bjt.png" height="400"/><figcaption>
+            <h4>Figure 4: Fan control circuit</h4>
+        </figcaption>
+</figure>
+</th>
+<th style="text-align:center"><figure><img src="/posts/gloves_dryer/Measured%20voltage.png" height="400"/><figcaption>
+            <h4>Figure 5: Measurement for DC gain estimation</h4>
+        </figcaption>
+</figure>
+</th>
+</tr>
+</thead>
+</table>
+<p>I have set up the circuit on a breadboard and added a series 10-ohm resistor to measure the current. I measured a 0.82V drop across the resistor, which means an 82mA current going through.</p>
+<p>In Figure 5, I have annotated the voltage measurement without the 10-ohm resistor. From those, we can calculate the DC gain. I get a gain of 114, close enough to my first estimation. To be safer, I could increase the resistance to make sure we are below 80mA, but I did not bother doing it here. I have been using the fan for a while now with no issue. Also, the power supply I used can only deliver 12VDC 150mA, as such, the Fans are running below 80mA.</p>
+<p>$$I_{B}=\frac{4.95-0.66}{6000} = 715 \mu A $$
+$$\beta = \frac{I_{C}}{I_{B}} = \frac{82}{0.715} = 114 $$</p>
+<h3 id="first-prototype-testing">First prototype testing</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:center"><figure><img src="/posts/gloves_dryer/breadbord_testing.jpg"/>
+</figure>
+</th>
+<th style="text-align:center"><figure><img src="/posts/gloves_dryer/v1_testing.jpg"/>
+</figure>
+</th>
+</tr>
+</thead>
+</table>
+<p>I used a solder board as the support for the prototype after testing on a breadboard. I tested the system with my gloves on a rainy day and it worked!
+I did some adjustments to the timers and threshold value for the humidity sensor (code and timer shown above are post-adjustment)</p>
+<h3 id="pcb-layout">PCB layout</h3>
+<p>To finalise the project, I designed a PCB on Kicad. And sent the Gerber files to a manufacturer.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center"><figure><img src="/posts/gloves_dryer/LAYOUTPCB.png" height="600"/><figcaption>
+            <h4>Layout</h4>
+        </figcaption>
+</figure>
+</th>
+<th style="text-align:center"><figure><img src="/posts/gloves_dryer/v2_vs_v1.jpg" height="600"/><figcaption>
+            <h4>Prototype vs V2</h4>
+        </figcaption>
+</figure>
+</th>
+</tr>
+</thead>
+</table>
+<figure><img src="/posts/gloves_dryer/v2.jpg"/><figcaption>
+            <h4>Board V2</h4>
+        </figcaption>
+</figure>
+
+<h2 id="compenent-list">Compenent list</h2>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p>Data sheet for DHT11 from mouser <a href="https://www.mouser.com/datasheet/2/758/DHT11-Technical-Data-Sheet-Translated-Version-1143054.pdf">link</a>&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2">
+<p>C Bitwise Operators <a href="https://www.tutorialspoint.com/cprogramming/c_bitwise_operators.htm">link</a>&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div>
+
+
+
+        <div class="footer">
+    Powered by <a href="https://gohugo.io/">Hugo</a> with
+    <a href="https://github.com/mrmierzejewski/hugo-theme-console/">Console Theme</a>. 
+</div>
+
+    </div>
+  </body>
+</html>
