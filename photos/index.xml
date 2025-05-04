@@ -2,38 +2,38 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Photos on Jules Rouillard</title>
-    <link>https://jules-rouillard.github.io/photos/</link>
+    <link>http://localhost:1313/photos/</link>
     <description>Recent content in Photos on Jules Rouillard</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Sun, 16 Mar 2025 00:00:00 +0000</lastBuildDate>
-    <atom:link href="https://jules-rouillard.github.io/photos/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/photos/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Carrauntoohil, Ireland</title>
-      <link>https://jules-rouillard.github.io/photos/carrauntoohil-ireland/</link>
+      <link>http://localhost:1313/photos/carrauntoohil-ireland/</link>
       <pubDate>Sun, 16 Mar 2025 00:00:00 +0000</pubDate>
-      <guid>https://jules-rouillard.github.io/photos/carrauntoohil-ireland/</guid>
+      <guid>http://localhost:1313/photos/carrauntoohil-ireland/</guid>
       <description>This is a picture of &amp;ldquo;Carrauntoohil&amp;rdquo; the highest mountain in Ireland (1039m), taken bellow &amp;ldquo;Caher West Top&amp;rdquo; side. Hike name : The Coomloughra Horseshoe Trail to Carrantuohill.</description>
     </item>
     <item>
       <title>Maja e Radohimës, Thethi, Albania</title>
-      <link>https://jules-rouillard.github.io/photos/qafa-e-pejes-albania/</link>
+      <link>http://localhost:1313/photos/qafa-e-pejes-albania/</link>
       <pubDate>Sat, 21 Sep 2024 00:00:00 +0000</pubDate>
-      <guid>https://jules-rouillard.github.io/photos/qafa-e-pejes-albania/</guid>
+      <guid>http://localhost:1313/photos/qafa-e-pejes-albania/</guid>
       <description>Taken while hiking from Theth to Qafa e pejes. The summit on the right is Maja e Radohimës (2568m)</description>
     </item>
     <item>
       <title>Pico de Marcadau, Pyrénées, Espagne</title>
-      <link>https://jules-rouillard.github.io/photos/pico-de-marcadau-pyrenees/</link>
+      <link>http://localhost:1313/photos/pico-de-marcadau-pyrenees/</link>
       <pubDate>Sun, 04 Aug 2024 00:00:00 +0000</pubDate>
-      <guid>https://jules-rouillard.github.io/photos/pico-de-marcadau-pyrenees/</guid>
+      <guid>http://localhost:1313/photos/pico-de-marcadau-pyrenees/</guid>
       <description>Picture taken after crossing &amp;ldquo;Puerto de Marcadeau&amp;rdquo; on the spanish side. The right lake is &amp;ldquo;Embalse de Bachimaña Alto&amp;rdquo; The main mountain in the center is &amp;ldquo;Pico dera Muga&amp;rdquo; (2727m)&#xA;Taken during my 6-day hike of the &amp;ldquo;Tour du grand Vignemale&amp;rdquo; in 2024.</description>
     </item>
     <item>
       <title>Refuge Wallon Marcadau, Pyrénées, France</title>
-      <link>https://jules-rouillard.github.io/photos/refuge-wallon-marcadau-pyrenees/</link>
+      <link>http://localhost:1313/photos/refuge-wallon-marcadau-pyrenees/</link>
       <pubDate>Sat, 03 Aug 2024 00:00:00 +0000</pubDate>
-      <guid>https://jules-rouillard.github.io/photos/refuge-wallon-marcadau-pyrenees/</guid>
+      <guid>http://localhost:1313/photos/refuge-wallon-marcadau-pyrenees/</guid>
       <description>Picture taken from the camping zone bellow the &amp;ldquo;Refuge Wallon Marcadau&amp;rdquo; around 6pm when the sun was setting on the valley. In the center we have &amp;ldquo;Pic Ruben Pantet&amp;rdquo; (2867m) on the left and &amp;ldquo;Pic Arraillous&amp;rdquo; (2704m) on the right.&#xA;Taken during my 6-day hike of the &amp;ldquo;Tour du grand Vignemale&amp;rdquo; in 2024.&#xA;Zooming in the top half part of the picture focusing more on both Pic great a better picture.</description>
     </item>
   </channel>
